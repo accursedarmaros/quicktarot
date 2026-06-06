@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Premium Tarot Card Widget</title>
+  <style>
+    body {
+      background-color: #121214;
+      color: #fdf6e3;
+      font-family: 'Georgia', serif;
+      text-align: center;
+      padding: 40px;
+    }
+    .tarot-widget {
+      background-color: #1e1e2f;
+      padding: 30px;
+      border-radius: 20px;
+      width: 320px;
+      margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      border: 1px solid #3a3a52;
+    }
+    .card-button {
+      background: linear-gradient(135deg, #5b446a, #3b2d4a);
+      color: #fff;
+      border: 1px solid #7b5e8c;
+      padding: 12px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+    .card-button:hover {
+      background: linear-gradient(135deg, #7b5e8c, #5b446a);
+      box-shadow: 0 6px 20px rgba(123, 94, 140, 0.4);
+      transform: translateY(-2px);
+    }
+    /* Card Container - Adjusted height for classic 3:5 tarot proportions */
+    .card-container {
+      perspective: 1000px;
+      width: 100%;
+      height: 480px; 
+      margin-top: 25px;
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+    .card-inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+    .card-front {
+      background-color: #2b2b3a;
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-back {
+      background: repeating-linear-gradient(45deg, #2b2b3a, #2b2b3a 10px, #232330 10px, #232330 20px);
+      border: 4px double #5b446a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-back::after {
+      content: "✨";
+      font-size: 50px;
+      opacity: 0.6;
+    }
+    /* FIX: Changed object-fit to contain so the entire image is always visible */
+    .tarot-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; 
+      background-color: #000; /* Pads any slight gaps with black like a frame */
+      transition: transform 0.5s ease;
+    }
+    .tarot-img.reversed {
+      transform: rotate(180deg);
+    }
+    .message {
+      margin-top: 25px;
+      font-size: 18px;
+      min-height: 60px;
+      line-height: 1.5;
+    }
+    .status-tag {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .upright-text { color: #4ade80; }
+    .reversed-text { color: #f87171; }
+  </style>
+</head>
+<body>
+
+  <div class="tarot-widget">
+    <h2>🔮 Daily Tarot Draw</h2>
+    
+    <div class="card-container">
+      <div class="card-inner" id="cardInner">
+        <div class="card-face card-back"></div>
+        <div class="card-face card-front">
+          <img id="tarotImg" src="" alt="" class="tarot-img"/>
+        </div>
+      </div>
+    </div>
+
+    <button class="card-button" onclick="drawCard()">Draw Card</button>
+    <div class="message" id="tarotMessage">Click the button to reveal your fate.</div>
+  </div>
+
+  <script>
+    const cards = [
+      { name: "The Fool", msg: "A new journey begins. Embrace it with wonder.", revMsg: "Recklessness or fear of taking a necessary leap. Watch your step.", img: "https://upload.wikimedia.org/wikipedia/commons/3/34/RWS_Tarot_00_Fool.jpg" },
+      { name: "The Magician", msg: "You have all the tools. Act with intention.", revMsg: "Unused potential, manipulation, or illusions. Align your focus.", img: "https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg" },
+      { name: "The High Priestess", msg: "Trust your intuition. Mystery holds truth.", revMsg: "Ignoring your gut feeling or hiding secrets. Look closer.", img: "https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_02_High_Priestess.jpg" },
+      { name: "The Empress", msg: "Nurture and create. Life flows from you.", revMsg: "Creative blocks or neglecting your own self-care.", img: "https://upload.wikimedia.org/wikipedia/commons/d/d2/RWS_Tarot_03_Empress.jpg" },
+      { name: "The Emperor", msg: "Take charge. Stability through structure.", revMsg: "Rigidity, control issues, or a lack of discipline.", img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/RWS_Tarot_04_Emperor.jpg" },
+      { name: "The Hierophant", msg: "Learn and share sacred knowledge.", revMsg: "Rebelling against tradition or finding your own unique path.", img: "https://upload.wikimedia.org/wikipedia/commons/8/8d/RWS_Tarot_05_Hierophant.jpg" },
+      { name: "The Lovers", msg: "Choose with your soul, not your fear.", revMsg: "Disharmony, misalignment, or an inner conflict of choices.", img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/TheLovers.jpg" },
+      { name: "The Chariot", msg: "Move forward with willpower and focus.", revMsg: "Lack of direction, loss of control, or hitting a roadblock.", img: "https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg" },
+      { name: "Strength", msg: "Quiet courage conquers chaos.", revMsg: "Self-doubt, raw emotion out of check, or forgetting your power.", img: "https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg" },
+      { name: "The Hermit", msg: "Seek within. Solitude holds light.", revMsg: "Isolation, loneliness, or avoiding reflection. Come back to earth.", img: "https://upload.wikimedia.org/wikipedia/commons/4/4d/RWS_Tarot_09_Hermit.jpg" },
+      { name: "Wheel of Fortune", msg: "Fate turns—ride the cycle wisely.", revMsg: "Bad luck or resisting a natural shift. This too shall pass.", img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg" },
+      { name: "Justice", msg: "Truth balances all things. Stand in clarity.", revMsg: "Dishonesty, unfairness, or refusing to take accountability.", img: "https://upload.wikimedia.org/wikipedia/commons/c/c0/RWS_Tarot_11_Justice.jpg" },
+      { name: "The Hanged Man", msg: "Surrender brings new perspective.", revMsg: "Stalling, resistance to letting go, or needless sacrifice.", img: "https://upload.wikimedia.org/wikipedia/commons/2/2b/RWS_Tarot_12_Hanged_Man.jpg" },
+      { name: "Death", msg: "Something ends, but something greater begins.", revMsg: "Resisting inevitable change or dragging out a slow ending.", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg" },
+      { name: "Temperance", msg: "Find balance. Blend extremes with care.", revMsg: "Imbalance, excess, or competing interests pulling you apart.", img: "https://upload.wikimedia.org/wikipedia/commons/f/f8/RWS_Tarot_14_Temperance.jpg" },
+      { name: "The Devil", msg: "Face your shadow and reclaim power.", revMsg: "Breaking chains, letting go of bad habits, or sudden freedom.", img: "https://upload.wikimedia.org/wikipedia/commons/5/55/RWS_Tarot_15_Devil.jpg" },
+      { name: "The Tower", msg: "Let what must fall, fall. Rebirth is near.", revMsg: "A narrow escape from disaster, or delaying an unavoidable shift.", img: "https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg" },
+      { name: "The Star", msg: "Healing comes. Stay soft. Stay bright.", revMsg: "Despair, lack of faith, or feeling disconnected from hope.", img: "https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_17_Star.jpg" },
+      { name: "The Moon", msg: "Not all is clear. Trust your inner guide.", revMsg: "Secrets revealed, fear subsiding, or confusion lifting.", img: "https://upload.wikimedia.org/wikipedia/commons/7/7f/RWS_Tarot_18_Moon.jpg" },
+      { name: "The Sun", msg: "Joy and clarity are with you now.", revMsg: "Temporary cloudiness, blocked joy, or unrealistic optimism.", img: "https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg" },
+      { name: "Judgement", msg: "Awaken. Your soul calls for renewal.", revMsg: "Self-judgment, indecision, or ignoring a major wake-up call.", img: "https://upload.wikimedia.org/wikipedia/commons/d/dd/RWS_Tarot_20_Judgement.jpg" },
+      { name: "The World", msg: "Completion. You’ve come full circle.", revMsg: "Lack of closure, shortcuts, or an incomplete cycle.", img: "https://upload.wikimedia.org/wikipedia/commons/f/ff/RWS_Tarot_21_World.jpg" }
+    ];
+
+    function drawCard() {
+      const cardInner = document.getElementById('cardInner');
+      const img = document.getElementById('tarotImg');
+      const messageDiv = document.getElementById('tarotMessage');
+      
+      cardInner.classList.remove('is-flipped');
+      img.classList.remove('reversed');
+      
+      setTimeout(() => {
+        const card = cards[Math.floor(Math.random() * cards.length)];
+        const isReversed = Math.random() < 0.5;
+        
+        img.src = card.img;
+        img.alt = card.name;
+        
+        if (isReversed) {
+          img.classList.add('reversed');
+          messageDiv.innerHTML = `<span class="status-tag reversed-text">Reversed</span><strong>${card.name}</strong>: ${card.revMsg}`;
+        } else {
+          messageDiv.innerHTML = `<span class="status-tag upright-text">Upright</span><strong>${card.name}</strong>: ${card.msg}`;
+        }
+        
+        cardInner.classList.add('is-flipped');
+      }, 150);
+    }
+  </script>
+
+</body>
+</html>
