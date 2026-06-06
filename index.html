@@ -131,30 +131,29 @@
 
   <script>
     const cards = [
-      { name: "The Fool", msg: "A new journey begins. Embrace it with wonder.", revMsg: "Recklessness or fear of taking a necessary leap. Watch your step.", img: "https://upload.wikimedia.org/wikipedia/commons/3/34/RWS_Tarot_00_Fool.jpg" },
-      { name: "The Magician", msg: "You have all the tools. Act with intention.", revMsg: "Unused potential, manipulation, or illusions. Align your focus.", img: "https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg" },
-      { name: "The High Priestess", msg: "Trust your intuition. Mystery holds truth.", revMsg: "Ignoring your gut feeling or hiding secrets. Look closer.", img: "https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_02_High_Priestess.jpg" },
-      { name: "The Empress", msg: "Nurture and create. Life flows from you.", revMsg: "Creative blocks or neglecting your own self-care.", img: "https://upload.wikimedia.org/wikipedia/commons/d/d2/RWS_Tarot_03_Empress.jpg" },
-      { name: "The Emperor", msg: "Take charge. Stability through structure.", revMsg: "Rigidity, control issues, or a lack of discipline.", img: "https://upload.wikimedia.org/wikipedia/commons/c/c3/RWS_Tarot_04_Emperor.jpg" },
-      { name: "The Hierophant", msg: "Learn and share sacred knowledge.", revMsg: "Rebelling against tradition or finding your own unique path.", img: "https://upload.wikimedia.org/wikipedia/commons/8/8d/RWS_Tarot_05_Hierophant.jpg" },
-      { name: "The Lovers", msg: "Choose with your soul, not your fear.", revMsg: "Disharmony, misalignment, or an inner conflict of choices.", img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/TheLovers.jpg" },
-      { name: "The Chariot", msg: "Move forward with willpower and focus.", revMsg: "Lack of direction, loss of control, or hitting a roadblock.", img: "https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg" },
-      { name: "Strength", msg: "Quiet courage conquers chaos.", revMsg: "Self-doubt, raw emotion out of check, or forgetting your power.", img: "https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg" },
-      { name: "The Hermit", msg: "Seek within. Solitude holds light.", revMsg: "Isolation, loneliness, or avoiding reflection. Come back to earth.", img: "https://upload.wikimedia.org/wikipedia/commons/4/4d/RWS_Tarot_09_Hermit.jpg" },
-      { name: "Wheel of Fortune", msg: "Fate turns—ride the cycle wisely.", revMsg: "Bad luck or resisting a natural shift. This too shall pass.", img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg" },
-      { name: "Justice", msg: "Truth balances all things. Stand in clarity.", revMsg: "Dishonesty, unfairness, or refusing to take accountability.", img: "https://upload.wikimedia.org/wikipedia/commons/c/c0/RWS_Tarot_11_Justice.jpg" },
-      { name: "The Hanged Man", msg: "Surrender brings new perspective.", revMsg: "Stalling, resistance to letting go, or needless sacrifice.", img: "https://upload.wikimedia.org/wikipedia/commons/2/2b/RWS_Tarot_12_Hanged_Man.jpg" },
-      { name: "Death", msg: "Something ends, but something greater begins.", revMsg: "Resisting inevitable change or dragging out a slow ending.", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg" },
-      { name: "Temperance", msg: "Find balance. Blend extremes with care.", revMsg: "Imbalance, excess, or competing interests pulling you apart.", img: "https://upload.wikimedia.org/wikipedia/commons/f/f8/RWS_Tarot_14_Temperance.jpg" },
-      { name: "The Devil", msg: "Face your shadow and reclaim power.", revMsg: "Breaking chains, letting go of bad habits, or sudden freedom.", img: "https://upload.wikimedia.org/wikipedia/commons/5/55/RWS_Tarot_15_Devil.jpg" },
-      { name: "The Tower", msg: "Let what must fall, fall. Rebirth is near.", revMsg: "A narrow escape from disaster, or delaying an unavoidable shift.", img: "https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg" },
-      { name: "The Star", msg: "Healing comes. Stay soft. Stay bright.", revMsg: "Despair, lack of faith, or feeling disconnected from hope.", img: "https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_17_Star.jpg" },
-      { name: "The Moon", msg: "Not all is clear. Trust your inner guide.", revMsg: "Secrets revealed, fear subsiding, or confusion lifting.", img: "https://upload.wikimedia.org/wikipedia/commons/7/7f/RWS_Tarot_18_Moon.jpg" },
-      { name: "The Sun", msg: "Joy and clarity are with you now.", revMsg: "Temporary cloudiness, blocked joy, or unrealistic optimism.", img: "https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg" },
-      { name: "Judgement", msg: "Awaken. Your soul calls for renewal.", revMsg: "Self-judgment, indecision, or ignoring a major wake-up call.", img: "https://upload.wikimedia.org/wikipedia/commons/d/dd/RWS_Tarot_20_Judgement.jpg" },
-      { name: "The World", msg: "Completion. You’ve come full circle.", revMsg: "Lack of closure, shortcuts, or an incomplete cycle.", img: "https://upload.wikimedia.org/wikipedia/commons/f/ff/RWS_Tarot_21_World.jpg" }
-    ];
-
+    { name: "The Fool", image: "https://yunru.se/tarot/cards/color/ar00.png", upright: "New beginnings, optimism, trust in life.", reversed: "Recklessness, risk-taking, holding back." },
+    { name: "The Magician", image: "https://yunru.se/tarot/cards/color/ar01.png", upright: "Manifestation, willpower, desire, resourcefulness.", reversed: "Illusion, out of touch, wasted talent." },
+    { name: "The High Priestess", image: "https://yunru.se/tarot/cards/color/ar02.png", upright: "Intuition, sacred knowledge, divine feminine, subconscious.", reversed: "Secret motives, surface-level thinking, ignoring intuition." },
+    { name: "The Empress", image: "https://yunru.se/tarot/cards/color/ar03.png", upright: "Abundance, creativity, nature, nurturing.", reversed: "Dependence, creative block, smothering." },
+    { name: "The Emperor", image: "https://yunru.se/tarot/cards/color/ar04.png", upright: "Authority, structure, solid foundation, protection.", reversed: "Tyranny, rigidity, coldness, lack of discipline." },
+    { name: "The Hierophant", image: "https://yunru.se/tarot/cards/color/ar05.png", upright: "Tradition, conformity, spiritual wisdom, institutions.", reversed: "Rebellion, subversion, new approaches." },
+    { name: "The Lovers", image: "https://yunru.se/tarot/cards/color/ar06.png", upright: "Harmony, choices, alignment of values, relationships.", reversed: "Disharmony, misalignment, imbalance." },
+    { name: "The Chariot", image: "https://yunru.se/tarot/cards/color/ar07.png", upright: "Control, willpower, success, determination, action.", reversed: "Lack of control, opposition, lack of direction." },
+    { name: "Strength", image: "https://yunru.se/tarot/cards/color/ar08.png", upright: "Courage, inner strength, influence, compassion.", reversed: "Self-doubt, raw emotion, weakness." },
+    { name: "The Hermit", image: "https://yunru.se/tarot/cards/color/ar09.png", upright: "Soul-searching, inner guidance, solitude, reflection.", reversed: "Loneliness, isolation, paranoia." },
+    { name: "Wheel of Fortune", image: "https://yunru.se/tarot/cards/color/ar10.png", upright: "Good luck, karma, life cycles, destiny, turning point.", reversed: "Bad luck, resisting change, breaking cycles." },
+    { name: "Justice", image: "https://yunru.se/tarot/cards/color/ar11.png", upright: "Fairness, truth, cause and effect, law.", reversed: "Dishonesty, lack of accountability, unfairness." },
+    { name: "The Hanged Man", image: "https://yunru.se/tarot/cards/color/ar12.png", upright: "Pause, surrender, letting go, new perspectives.", reversed: "Stagnation, waiting, stalling, ego resistance." },
+    { name: "Death", image: "https://yunru.se/tarot/cards/color/ar13.png", upright: "Endings, change, transformation, transition.", reversed: "Resistance to change, personal stagnation, decaying ties." },
+    { name: "Temperance", image: "https://yunru.se/tarot/cards/color/ar14.png", upright: "Balance, moderation, patience, purpose.", reversed: "Imbalance, excess, misalignment." },
+    { name: "The Devil", image: "https://yunru.se/tarot/cards/color/ar15.png", upright: "Shadow self, attachment, addiction, restriction.", reversed: "Detaching, reclaiming control, dark night of the soul." },
+    { name: "The Tower", image: "https://yunru.se/tarot/cards/color/ar16.png", upright: "Sudden change, upheaval, chaos, revelation.", reversed: "Avoiding disaster, delaying the inevitable, fear of suffering." },
+    { name: "The Star", image: "https://yunru.se/tarot/cards/color/ar17.png", upright: "Hope, faith, purpose, renewal, spirituality.", reversed: "Despair, lack of faith, discouragement." },
+    { name: "The Moon", image: "https://yunru.se/tarot/cards/color/ar18.png", upright: "Illusion, fear, anxiety, subconscious, intuition.", reversed: "Release of fear, uncovering secrets, confusion clears." },
+    { name: "The Sun", image: "https://yunru.se/tarot/cards/color/ar19.png", upright: "Positivity, fun, warmth, success, vitality.", reversed: "Inner child blocks, temporary depression, unrealistic optimism." },
+    { name: "Judgement", image: "https://yunru.se/tarot/cards/color/ar20.png", upright: "Reflection, reckoning, awakening, absolution.", reversed: "Self-doubt, inner critic, ignoring the call." },
+    { name: "The World", image: "https://yunru.se/tarot/cards/color/ar21.png", upright: "Completion, integration, accomplishment, travel.", reversed: "Seeking closure, shortcuts, incomplete goals." }
+];
     function drawCard() {
       const cardInner = document.getElementById('cardInner');
       const img = document.getElementById('tarotImg');
