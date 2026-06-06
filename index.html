@@ -115,6 +115,16 @@
     }
     .upright-text { color: #4ade80; }
     .reversed-text { color: #f87171; }
+    .tarot-img {
+      max-width: 100%;
+      max-height: 280px;
+      border-radius: 10px;
+      margin: 10px 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .tarot-img.reversed {
+      transform: rotate(180deg);
+    }
   </style>
 </head>
 <body>
@@ -176,10 +186,20 @@
       const isReversed = Math.random() < 0.5;
       
       titleDisplay.innerText = card.name;
-      sigilDisplay.innerText = card.sigil;
+      
+      // FIX: This checks if the card has a custom image, otherwise it uses the emoji sigil!
+      if (card.image) {
+        sigilDisplay.innerHTML = `<img src="${card.image}" class="tarot-img ${isReversed ? 'reversed' : ''}" style="width:100%; height:100%; object-fit:contain;">`;
+      } else {
+        sigilDisplay.innerText = card.sigil;
+        if (isReversed) {
+          sigilDisplay.classList.add('reversed');
+        } else {
+          sigilDisplay.classList.remove('reversed');
+        }
+      }
       
       if (isReversed) {
-        sigilDisplay.classList.add('reversed');
         messageDiv.innerHTML = `<span class="status-tag reversed-text">Reversed</span><strong>${card.name}</strong>: ${card.reversed}`;
       } else {
         messageDiv.innerHTML = `<span class="status-tag upright-text">Upright</span><strong>${card.name}</strong>: ${card.upright}`;
