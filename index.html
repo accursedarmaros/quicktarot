@@ -37,7 +37,6 @@
       box-shadow: 0 6px 20px rgba(123, 94, 140, 0.4);
       transform: translateY(-2px);
     }
-    /* Card Container - Adjusted height for classic 3:5 tarot proportions */
     .card-container {
       perspective: 1000px;
       width: 100%;
@@ -83,12 +82,11 @@
       font-size: 50px;
       opacity: 0.6;
     }
-    /* FIX: Changed object-fit to contain so the entire image is always visible */
     .tarot-img {
       width: 100%;
       height: 100%;
       object-fit: contain; 
-      background-color: #000; /* Pads any slight gaps with black like a frame */
+      background-color: #000;
       transition: transform 0.5s ease;
     }
     .tarot-img.reversed {
@@ -114,7 +112,7 @@
 <body>
 
   <div class="tarot-widget">
-    <h2>🔮 Daily Tarot Draw</h2>
+    <h2>🔮 quicktarot</h2>
     
     <div class="card-container">
       <div class="card-inner" id="cardInner">
@@ -153,35 +151,38 @@
     { name: "The Sun", image: "https://yunru.se/tarot/cards/color/ar19.png", upright: "Positivity, fun, warmth, success, vitality.", reversed: "Inner child blocks, temporary depression, unrealistic optimism." },
     { name: "Judgement", image: "https://yunru.se/tarot/cards/color/ar20.png", upright: "Reflection, reckoning, awakening, absolution.", reversed: "Self-doubt, inner critic, ignoring the call." },
     { name: "The World", image: "https://yunru.se/tarot/cards/color/ar21.png", upright: "Completion, integration, accomplishment, travel.", reversed: "Seeking closure, shortcuts, incomplete goals." }
-];
-    function drawCard() {
-      const cardInner = document.getElementById('cardInner');
-      const img = document.getElementById('tarotImg');
-      const messageDiv = document.getElementById('tarotMessage');
+  ];
+
+  function drawCard() {
+    const cardInner = document.getElementById('cardInner');
+    const img = document.getElementById('tarotImg');
+    const messageDiv = document.getElementById('tarotMessage');
+    
+    cardInner.classList.remove('is-flipped');
+    img.classList.remove('reversed');
+    
+    setTimeout(() => {
+      const card = cards[Math.floor(Math.random() * cards.length)];
+      const isReversed = Math.random() < 0.5;
       
-      cardInner.classList.remove('is-flipped');
-      img.classList.remove('reversed');
+      // FIXED lines map to correct array variables now
+      img.src = card.image;
+      img.alt = card.name;
       
-      setTimeout(() => {
-        const card = cards[Math.floor(Math.random() * cards.length)];
-        const isReversed = Math.random() < 0.5;
-        
-        img.src = card.img;
-        img.alt = card.name;
-        
-        if (isReversed) {
-          img.classList.add('reversed');
-          messageDiv.innerHTML = `<span class="status-tag reversed-text">Reversed</span><strong>${card.name}</strong>: ${card.revMsg}`;
-        } else {
-          messageDiv.innerHTML = `<span class="status-tag upright-text">Upright</span><strong>${card.name}</strong>: ${card.msg}`;
-        }
-        
-        cardInner.classList.add('is-flipped');
-      }, 150);
-    }
+      if (isReversed) {
+        img.classList.add('reversed');
+        messageDiv.innerHTML = `<span class="status-tag reversed-text">Reversed</span><strong>${card.name}</strong>: ${card.reversed}`;
+      } else {
+        messageDiv.innerHTML = `<span class="status-tag upright-text">Upright</span><strong>${card.name}</strong>: ${card.upright}`;
+      }
+      
+      cardInner.classList.add('is-flipped');
+    }, 150);
+  }
   </script>
-<div style="text-align: center; margin-top: 20px; opacity: 0.7;">
-        <img src="https://hits.sh/accursedarmaros.github.io/quicktarot.svg?style=flat-square&text=visitors" alt="Hits"/>
-    </div>
+
+  <div style="text-align: center; margin-top: 40px; padding-bottom: 20px; opacity: 0.7;">
+      <img src="https://hits.sh/accursedarmaros.github.io/quicktarot.svg?style=flat-square&text=visitors" alt="Hits"/>
+  </div>
 </body>
 </html>
