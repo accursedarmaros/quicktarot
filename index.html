@@ -40,7 +40,7 @@
     .card-container {
       perspective: 1000px;
       width: 100%;
-      height: 480px; 
+      height: 440px; 
       margin-top: 25px;
     }
     .card-inner {
@@ -62,13 +62,17 @@
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.5);
       overflow: hidden;
+      box-sizing: border-box;
     }
     .card-front {
-      background-color: #2b2b3a;
+      background-color: #252538;
+      border: 4px double #7b5e8c;
       transform: rotateY(180deg);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
     .card-back {
       background: repeating-linear-gradient(45deg, #2b2b3a, #2b2b3a 10px, #232330 10px, #232330 20px);
@@ -82,15 +86,19 @@
       font-size: 50px;
       opacity: 0.6;
     }
-    .tarot-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain; 
-      background-color: #000;
+    .sigil-display {
+      font-size: 80px;
+      margin: 20px 0;
       transition: transform 0.5s ease;
+      filter: drop-shadow(0 0 10px rgba(123, 94, 140, 0.5));
     }
-    .tarot-img.reversed {
+    .sigil-display.reversed {
       transform: rotate(180deg);
+    }
+    .card-front-title {
+      font-size: 24px;
+      color: #fdf6e3;
+      margin: 10px 0;
     }
     .message {
       margin-top: 25px;
@@ -118,7 +126,8 @@
       <div class="card-inner" id="cardInner">
         <div class="card-face card-back"></div>
         <div class="card-face card-front">
-          <img id="tarotImg" src="" alt="" class="tarot-img"/>
+          <div id="cardSigil" class="sigil-display">✨</div>
+          <div id="cardTitle" class="card-front-title">The Card</div>
         </div>
       </div>
     </div>
@@ -129,48 +138,48 @@
 
   <script>
   const cards = [
-    { name: "The Fool", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar00.jpg", upright: "New beginnings, optimism, trust in life.", reversed: "Recklessness, risk-taking, holding back." },
-    { name: "The Magician", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar01.jpg", upright: "Manifestation, willpower, desire, resourcefulness.", reversed: "Illusion, out of touch, wasted talent." },
-    { name: "The High Priestess", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar02.jpg", upright: "Intuition, sacred knowledge, divine feminine, subconscious.", reversed: "Secret motives, surface-level thinking, ignoring intuition." },
-    { name: "The Empress", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar03.jpg", upright: "Abundance, creativity, nature, nurturing.", reversed: "Dependence, creative block, smothering." },
-    { name: "The Emperor", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar04.jpg", upright: "Authority, structure, solid foundation, protection.", reversed: "Tyranny, rigidity, coldness, lack of discipline." },
-    { name: "The Hierophant", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar05.jpg", upright: "Tradition, conformity, spiritual wisdom, institutions.", reversed: "Rebellion, subversion, new approaches." },
-    { name: "The Lovers", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar06.jpg", upright: "Harmony, choices, alignment of values, relationships.", reversed: "Disharmony, misalignment, imbalance." },
-    { name: "The Chariot", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar07.jpg", upright: "Control, willpower, success, determination, action.", reversed: "Lack of control, opposition, lack of direction." },
-    { name: "Strength", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar08.jpg", upright: "Courage, inner strength, influence, compassion.", reversed: "Self-doubt, raw emotion, weakness." },
-    { name: "The Hermit", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar09.jpg", upright: "Soul-searching, inner guidance, solitude, reflection.", reversed: "Loneliness, isolation, paranoia." },
-    { name: "Wheel of Fortune", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar10.jpg", upright: "Good luck, karma, life cycles, destiny, turning point.", reversed: "Bad luck, resisting change, breaking cycles." },
-    { name: "Justice", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar11.jpg", upright: "Fairness, truth, cause and effect, law.", reversed: "Dishonesty, lack of accountability, unfairness." },
-    { name: "The Hanged Man", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/master/static/card_images/ar12.jpg", upright: "Pause, surrender, letting go, new perspectives.", reversed: "Stagnation, waiting, stalling, ego resistance." },
-    { name: "Death", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar13.jpg", upright: "Endings, change, transformation, transition.", reversed: "Resistance to change, personal stagnation, decaying ties." },
-    { name: "Temperance", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar14.jpg", upright: "Balance, moderation, patience, purpose.", reversed: "Imbalance, excess, misalignment." },
-    { name: "The Devil", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar15.jpg", upright: "Shadow self, attachment, addiction, restriction.", reversed: "Detaching, reclaiming control, dark night of the soul." },
-    { name: "The Tower", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar16.jpg", upright: "Sudden change, upheaval, chaos, revelation.", reversed: "Avoiding disaster, delaying the inevitable, fear of suffering." },
-    { name: "The Star", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar17.jpg", upright: "Hope, faith, purpose, renewal, spirituality.", reversed: "Despair, lack of faith, discouragement." },
-    { name: "The Moon", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar18.jpg", upright: "Illusion, fear, anxiety, subconscious, intuition.", reversed: "Release of fear, uncovering secrets, confusion clears." },
-    { name: "The Sun", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar19.jpg", upright: "Positivity, fun, warmth, success, vitality.", reversed: "Inner child blocks, temporary depression, unrealistic optimism." },
-    { name: "Judgement", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar20.jpg", upright: "Reflection, reckoning, awakening, absolution.", reversed: "Self-doubt, inner critic, ignoring the call." },
-    { name: "The World", image: "https://raw.githubusercontent.com/ekelen/tarot-api/master/static/card_images/ar21.jpg", upright: "Completion, integration, accomplishment, travel.", reversed: "Seeking closure, shortcuts, incomplete goals." }
-];
+    { name: "The Fool", sigil: "🃏", upright: "New beginnings, optimism, trust in life.", reversed: "Recklessness, risk-taking, holding back." },
+    { name: "The Magician", sigil: "🪄", upright: "Manifestation, willpower, desire, resourcefulness.", reversed: "Illusion, out of touch, wasted talent." },
+    { name: "The High Priestess", sigil: "🌙", upright: "Intuition, sacred knowledge, divine feminine, subconscious.", reversed: "Secret motives, surface-level thinking, ignoring intuition." },
+    { name: "The Empress", sigil: "🌱", upright: "Abundance, creativity, nature, nurturing.", reversed: "Dependence, creative block, smothering." },
+    { name: "The Emperor", sigil: "👑", upright: "Authority, structure, solid foundation, protection.", reversed: "Tyranny, rigidity, coldness, lack of discipline." },
+    { name: "The Hierophant", sigil: "📜", upright: "Tradition, conformity, spiritual wisdom, institutions.", reversed: "Rebellion, subversion, new approaches." },
+    { name: "The Lovers", sigil: "❤️", upright: "Harmony, choices, alignment of values, relationships.", reversed: "Disharmony, misalignment, imbalance." },
+    { name: "The Chariot", sigil: "🛒", upright: "Control, willpower, success, determination, action.", reversed: "Lack of control, opposition, lack of direction." },
+    { name: "Strength", sigil: "🦁", upright: "Courage, inner strength, influence, compassion.", reversed: "Self-doubt, raw emotion, weakness." },
+    { name: "The Hermit", sigil: "🏮", upright: "Soul-searching, inner guidance, solitude, reflection.", reversed: "Loneliness, isolation, paranoia." },
+    { name: "Wheel of Fortune", sigil: "🎡", upright: "Good luck, karma, life cycles, destiny, turning point.", reversed: "Bad luck, resisting change, breaking cycles." },
+    { name: "Justice", sigil: "⚖️", upright: "Fairness, truth, cause and effect, law.", reversed: "Dishonesty, lack of accountability, unfairness." },
+    { name: "The Hanged Man", sigil: "⏳", upright: "Pause, surrender, letting go, new perspectives.", reversed: "Stagnation, waiting, stalling, ego resistance." },
+    { name: "Death", sigil: "💀", upright: "Endings, change, transformation, transition.", reversed: "Resistance to change, personal stagnation, decaying ties." },
+    { name: "Temperance", sigil: "⚗️", upright: "Balance, moderation, patience, purpose.", reversed: "Imbalance, excess, misalignment." },
+    { name: "The Devil", sigil: "🔥", upright: "Shadow self, attachment, addiction, restriction.", reversed: "Detaching, reclaiming control, dark night of the soul." },
+    { name: "The Tower", sigil: "⚡", upright: "Sudden change, upheaval, chaos, revelation.", reversed: "Avoiding disaster, delaying the inevitable, fear of suffering." },
+    { name: "The Star", sigil: "⭐", upright: "Hope, faith, purpose, renewal, spirituality.", reversed: "Despair, lack of faith, discouragement." },
+    { name: "The Moon", sigil: "🐺", upright: "Illusion, fear, anxiety, subconscious, intuition.", reversed: "Release of fear, uncovering secrets, confusion clears." },
+    { name: "The Sun", sigil: "☀️", upright: "Positivity, fun, warmth, success, vitality.", reversed: "Inner child blocks, temporary depression, unrealistic optimism." },
+    { name: "Judgement", sigil: "🔔", upright: "Reflection, reckoning, awakening, absolution.", reversed: "Self-doubt, inner critic, ignoring the call." },
+    { name: "The World", sigil: "🌍", upright: "Completion, integration, accomplishment, travel.", reversed: "Seeking closure, shortcuts, incomplete goals." }
+  ];
 
   function drawCard() {
     const cardInner = document.getElementById('cardInner');
-    const img = document.getElementById('tarotImg');
+    const sigilDisplay = document.getElementById('cardSigil');
+    const titleDisplay = document.getElementById('cardTitle');
     const messageDiv = document.getElementById('tarotMessage');
     
     cardInner.classList.remove('is-flipped');
-    img.classList.remove('reversed');
+    sigilDisplay.classList.remove('reversed');
     
     setTimeout(() => {
       const card = cards[Math.floor(Math.random() * cards.length)];
       const isReversed = Math.random() < 0.5;
       
-      // FIXED lines map to correct array variables now
-      img.src = card.image;
-      img.alt = card.name;
+      titleDisplay.innerText = card.name;
+      sigilDisplay.innerText = card.sigil;
       
       if (isReversed) {
-        img.classList.add('reversed');
+        sigilDisplay.classList.add('reversed');
         messageDiv.innerHTML = `<span class="status-tag reversed-text">Reversed</span><strong>${card.name}</strong>: ${card.reversed}`;
       } else {
         messageDiv.innerHTML = `<span class="status-tag upright-text">Upright</span><strong>${card.name}</strong>: ${card.upright}`;
